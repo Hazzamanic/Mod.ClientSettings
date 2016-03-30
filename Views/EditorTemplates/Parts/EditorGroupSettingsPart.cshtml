@@ -1,0 +1,10 @@
+﻿@model Mod.ClientSettings.Models.EditorGroupSettingsPart
+
+<fieldset>
+    <legend></legend>
+	<div>
+		@Html.LabelFor(m => m.EditorGroups, T("Editor Groups"))
+		@Html.EditorFor(m => m.EditorGroups)
+		@Html.ValidationMessage("EditorGroups", "*")
+	</div>
+</fieldset>
