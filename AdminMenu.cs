@@ -33,7 +33,7 @@ namespace Mod.ClientSettings {
             var editors = settings.Split(',');
 
             builder.AddImageSet("settings")
-                .Add(T("Client Settings"), "95",
+                .Add(T("Site Settings"), "95",
                     menu => menu.Add(T("General"), "0", item => item.Action("Index", "Admin", new { area = "Mod.ClientSettings", groupInfoId = "Index" })
                         .Permission(Permissions.ManageSettings)), new [] {"collapsed"});
 
@@ -44,7 +44,7 @@ namespace Mod.ClientSettings {
                 if (!editors.Contains(info.Id))
                     continue;
 
-                builder.Add(T("Client Settings"),
+                builder.Add(T("Site Settings"),
                     menu => menu.Add(info.Name, info.Position, item => item.Action("Index", "Admin", new { area = "Mod.ClientSettings", groupInfoId = info.Id })
                         .Permission(Permissions.ManageSettings)));
             }
