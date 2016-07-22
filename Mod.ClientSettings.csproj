@@ -100,12 +100,16 @@
     <Compile Include="Handlers\EditorGroupSettingsPartHandler.cs" />
     <Compile Include="Models\EditorGroupSettingsPart.cs" />
     <Compile Include="Permissions.cs" />
+    <Compile Include="Routes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\EditorTemplates\Parts\EditorGroupSettingsPart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Placement.info" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

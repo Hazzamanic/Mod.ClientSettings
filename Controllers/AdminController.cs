@@ -34,28 +34,27 @@ namespace Mod.ClientSettings.Controllers {
             if (!Services.Authorizer.Authorize(Permissions.ManageSettings, T("Not authorized to manage settings")))
                 return new HttpUnauthorizedResult();
 
+            var site = _siteService.GetSiteSettings();
+            if (String.IsNullOrWhiteSpace(groupInfoId)) {
+                dynamic sitemodel = Services.New.SiteSettingsEditor();
+                return View(sitemodel);
+            }
+
             // perform check to make sure they are not trying to access a secure setting
-            if(CanAccess(groupInfoId))
+            if (!CanAccess(groupInfoId))
                 return new HttpUnauthorizedResult();
 
-            dynamic model;
-            var site = _siteService.GetSiteSettings();
+            dynamic model;            
+            model = Services.ContentManager.BuildEditor(site, groupInfoId);
 
-            if (!string.IsNullOrWhiteSpace(groupInfoId)) {
-                model = Services.ContentManager.BuildEditor(site, groupInfoId);
+            if (model == null)
+                return HttpNotFound();
 
-                if (model == null)
-                    return HttpNotFound();
+            var groupInfo = Services.ContentManager.GetEditorGroupInfo(site, groupInfoId);
+            if (groupInfo == null)
+                return HttpNotFound();
 
-                var groupInfo = Services.ContentManager.GetEditorGroupInfo(site, groupInfoId);
-                if (groupInfo == null)
-                    return HttpNotFound();
-
-                model.GroupInfo = groupInfo;
-            }
-            else {
-                model = Services.ContentManager.BuildEditor(site);
-            }
+            model.GroupInfo = groupInfo;
 
             return View(model);
         }
@@ -100,13 +99,13 @@ namespace Mod.ClientSettings.Controllers {
 
         private bool CanAccess(string groupId) {
             var editors = Services.WorkContext.CurrentSite.As<EditorGroupSettingsPart>().EditorGroups;
-            if(String.IsNullOrWhiteSpace(editors))
+            if (String.IsNullOrWhiteSpace(editors))
                 return false;
-            
+
             var editorArray = editors.Split(',');
             if (editorArray.Contains(groupId))
                 return true;
-            
+
             return false;
         }
 
