@@ -65,7 +65,7 @@ namespace Mod.ClientSettings.Controllers {
                 return new HttpUnauthorizedResult();
 
             // perform check to make sure they are not trying to access a secure setting
-            if (CanAccess(groupInfoId))
+            if (!CanAccess(groupInfoId))
                 return new HttpUnauthorizedResult();
 
             var site = _siteService.GetSiteSettings();
@@ -94,7 +94,7 @@ namespace Mod.ClientSettings.Controllers {
             }
 
             Services.Notifier.Information(T("Settings updated"));
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { groupInfoId = groupInfoId });
         }
 
         private bool CanAccess(string groupId) {
@@ -103,7 +103,7 @@ namespace Mod.ClientSettings.Controllers {
                 return false;
 
             var editorArray = editors.Split(',');
-            if (editorArray.Contains(groupId))
+            if (editorArray.Contains(groupId, StringComparer.InvariantCultureIgnoreCase))
                 return true;
 
             return false;

@@ -32,16 +32,23 @@ namespace Mod.ClientSettings {
 
             var editors = settings.Split(',');
 
-            builder.AddImageSet("settings")
-                .Add(T("Site Settings"), "95",
+
+            builder.AddImageSet("settings");
+
+            if (editors.Contains("index", StringComparer.InvariantCultureIgnoreCase)) {
+                builder.Add(T("Site Settings"), "95",
                     menu => menu.Add(T("General"), "0", item => item.Action("Index", "Admin", new { area = "Mod.ClientSettings", groupInfoId = "Index" })
-                        .Permission(Permissions.ManageSettings)), new [] {"collapsed"});
+                        .Permission(Permissions.ManageSettings)), new[] { "collapsed" });
+            }
+            else {
+                builder.Add(T("Site Settings"), "95");
+            }
 
             
 
             foreach (var groupInfo in Services.ContentManager.GetEditorGroupInfos(site.ContentItem)) {
                 GroupInfo info = groupInfo;
-                if (!editors.Contains(info.Id))
+                if (!editors.Contains(info.Id, StringComparer.InvariantCultureIgnoreCase))
                     continue;
 
                 builder.Add(T("Site Settings"),
