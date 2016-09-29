@@ -4,7 +4,7 @@
     <legend></legend>
 	<div>
 		@Html.LabelFor(m => m.EditorGroups, T("Editor Groups"))
-		@Html.EditorFor(m => m.EditorGroups)
+		@Html.TextBoxFor(m => m.EditorGroups, new { @class = "text medium" })
 		@Html.ValidationMessage("EditorGroups", "*")
 	</div>
 </fieldset>
